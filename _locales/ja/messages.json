@@ -1,0 +1,14 @@
+{
+  "contextMenuSave": {
+    "message": "ReClipに保存"
+  },
+  "popupTitle": {
+    "message": "保存一覧"
+  },
+  "deleteButton": {
+    "message": "削除"
+  },
+  "clearAllButton": {
+    "message": "すべて削除"
+  }
+}

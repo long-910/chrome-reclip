@@ -9,13 +9,24 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       outDir: 'build',
       rollupOptions: {
+        input: {
+          popup: 'src/popup/index.html',
+          settings: 'src/popup/settings.html',
+          saved: 'src/pages/saved.html',
+          content: 'src/content/index.ts',
+          background: 'src/background/index.ts'
+        },
         output: {
           chunkFileNames: 'assets/chunk-[hash].js',
+          entryFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash].[ext]',
         },
       },
     },
 
-    plugins: [crx({ manifest })],
+    plugins: [
+      crx({ manifest }),
+    ],
     legacy: {
       skipWebSocketTokenCheck: true,
     },

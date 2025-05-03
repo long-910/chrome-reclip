@@ -1,47 +1,49 @@
 import { defineManifest } from '@crxjs/vite-plugin'
-import packageData from '../package.json'
 
-//@ts-ignore
-const isDev = process.env.NODE_ENV == 'development'
-
-export default defineManifest({
-  name: `${packageData.displayName || packageData.name}${isDev ? ` ➡️ Dev` : ''}`,
-  description: packageData.description,
-  version: packageData.version,
+export default defineManifest(async (env) => ({
   manifest_version: 3,
+  name: 'ReClip',
+  version: '1.0.0',
+  version_name: '1.0.0',
+  description: '動画を保存して後で見るためのChrome拡張機能',
   icons: {
-    16: 'img/logo-16.png',
-    32: 'img/logo-32.png',
-    48: 'img/logo-48.png',
-    128: 'img/logo-128.png',
+    '16': 'img/logo-16.png',
+    '32': 'img/logo-32.png',
+    '48': 'img/logo-48.png',
+    '128': 'img/logo-128.png',
   },
   action: {
-    default_popup: 'popup.html',
-    default_icon: 'img/logo-48.png',
+    default_popup: 'src/popup/index.html',
+    default_icon: {
+      '16': 'img/logo-16.png',
+      '32': 'img/logo-32.png',
+      '48': 'img/logo-48.png',
+      '128': 'img/logo-128.png',
+    },
   },
-  options_page: 'options.html',
-  devtools_page: 'devtools.html',
   background: {
     service_worker: 'src/background/index.ts',
     type: 'module',
   },
   content_scripts: [
     {
-      matches: ['http://*/*', 'https://*/*'],
-      js: ['src/contentScript/index.ts'],
+      matches: ['https://www.youtube.com/*'],
+      js: ['src/content/index.ts'],
     },
   ],
-  side_panel: {
-    default_path: 'sidepanel.html',
-  },
+  permissions: [
+    'storage',
+    'contextMenus',
+    'tabs',
+    'notifications',
+  ],
+  host_permissions: [
+    'https://www.youtube.com/*'
+  ],
   web_accessible_resources: [
     {
-      resources: ['img/logo-16.png', 'img/logo-32.png', 'img/logo-48.png', 'img/logo-128.png'],
-      matches: [],
+      resources: ['img/*', 'pages/*'],
+      matches: ['https://www.youtube.com/*'],
     },
   ],
-  permissions: ['sidePanel', 'storage'],
-  chrome_url_overrides: {
-    newtab: 'newtab.html',
-  },
-})
+}))

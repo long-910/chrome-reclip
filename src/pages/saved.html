@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=800, initial-scale=1.0">
+  <title>ReClip 一覧</title>
+  <style>
+    body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #fafbfc;
+      color: #222;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .settings-link {
+      font-size: 1em;
+      color: #007bff;
+      text-decoration: underline;
+      cursor: pointer;
+      margin-left: 16px;
+    }
+    .settings-link:hover {
+      color: #0056b3;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .video-item {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+      cursor: pointer;
+      border: 1px solid #eee;
+    }
+    .video-item:hover {
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+    .video-thumbnail {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: #eee;
+    }
+    .video-info {
+      padding: 16px;
+    }
+    .video-title {
+      margin: 0 0 8px;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #222;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .video-domain {
+      color: #666;
+      font-size: 0.95em;
+      margin-bottom: 8px;
+    }
+    .delete-btn {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 8px;
+    }
+    .delete-btn:hover {
+      background: #cc0000;
+    }
+    .delete-all-btn {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .delete-all-btn:hover {
+      background: #cc0000;
+    }
+    .lang-select {
+      font-size: 1em;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header-row">
+    <h1 id="titleLabel">保存した動画</h1>
+    <div>
+      <a id="settingsLink" class="settings-link">⚙️ <span id="settingsText">設定</span></a>
+      <label id="langLabel" style="font-size: 1em;">
+        言語
+        <select id="langSelect" class="lang-select">
+          <option value="ja">日本語</option>
+          <option value="en">English</option>
+          <option value="zh">中文</option>
+        </select>
+      </label>
+      <button id="deleteAll" class="delete-all-btn">すべて削除</button>
+    </div>
+  </div>
+  <div id="videoList" class="video-grid"></div>
+  <script src="saved.ts" type="module"></script>
+</body>
+</html> 

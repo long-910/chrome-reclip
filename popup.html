@@ -1,13 +1,21 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/icon/logo.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chrome Extension + Vanilla + TS + Vite</title>
+    <title>ReClip</title>
+    <link rel="stylesheet" href="src/popup/index.css">
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/popup/index.ts"></script>
+    <div class="popup-container">
+      <h1>ReClip</h1>
+      <a href="saved/index.html" target="_blank" class="saved-videos-link">保存した動画一覧を表示</a>
+      <div id="recentVideos" class="recent-videos">
+        <h2>最近保存した動画</h2>
+        <div id="videoList" class="video-list"></div>
+      </div>
+    </div>
+    <script type="module" src="src/popup/index.ts"></script>
   </body>
 </html>

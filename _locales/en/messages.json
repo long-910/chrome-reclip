@@ -1,0 +1,14 @@
+{
+  "contextMenuSave": {
+    "message": "Save to ReClip"
+  },
+  "popupTitle": {
+    "message": "Saved Items"
+  },
+  "deleteButton": {
+    "message": "Delete"
+  },
+  "clearAllButton": {
+    "message": "Clear All"
+  }
+}
