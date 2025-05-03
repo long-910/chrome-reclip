@@ -1,5 +1,7 @@
 # ReClip
 
+[![Node.js CI](https://github.com/long-910/chrome-reclip/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/long-910/chrome-reclip/actions/workflows/node.js.yml)
+
 [English](README.md) | [日本語 (Japanese)](README.ja.md) | [中文 (Chinese)](README.zh.md)
 
 ---
