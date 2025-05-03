@@ -78,6 +78,16 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+    #legalLinks a {
+      color: #1976d2;
+      text-decoration: underline;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    #legalLinks a:hover {
+      color: #4CAF50;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -96,6 +106,10 @@
       <option value="en">English</option>
       <option value="zh">中文</option>
     </select>
+  </div>
+  <div id="legalLinks" style="text-align:center; margin-top:32px;">
+    <a id="termsLink" href="#" target="_blank" style="margin-right:16px;">利用規約</a>
+    <a id="privacyLink" href="#" target="_blank">プライバシーポリシー</a>
   </div>
   <script src="settings.ts" type="module"></script>
 </body>

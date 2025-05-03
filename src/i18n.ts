@@ -11,6 +11,8 @@ export const I18N: Record<Lang, Record<string, string>> = {
     langLabel: '言語',
     settings: '設定',
     logToggle: 'ログ出力ON/OFF',
+    terms: '利用規約',
+    privacy: 'プライバシーポリシー',
   },
   en: {
     savedVideos: 'Saved Videos',
@@ -22,6 +24,8 @@ export const I18N: Record<Lang, Record<string, string>> = {
     langLabel: 'Language',
     settings: 'Settings',
     logToggle: 'Enable Log Output',
+    terms: 'Terms of Use',
+    privacy: 'Privacy Policy',
   },
   zh: {
     savedVideos: '已保存的视频',
@@ -33,6 +37,8 @@ export const I18N: Record<Lang, Record<string, string>> = {
     langLabel: '语言',
     settings: '设置',
     logToggle: '启用日志输出',
+    terms: '使用条款',
+    privacy: '隐私政策',
   },
 };
 export function getDefaultLang(): Lang {

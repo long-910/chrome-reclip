@@ -27,6 +27,23 @@ function renderTexts() {
     document.getElementById('settingsTitle').textContent = t('settings', currentLang);
     document.getElementById('logLabel').textContent = t('logToggle', currentLang);
     document.getElementById('langLabel').textContent = t('langLabel', currentLang);
+    // 利用規約・プライバシーポリシーリンク
+    const termsLink = document.getElementById('termsLink');
+    const privacyLink = document.getElementById('privacyLink');
+    termsLink.textContent = t('terms', currentLang);
+    privacyLink.textContent = t('privacy', currentLang);
+    if (currentLang === 'ja') {
+        termsLink.href = '../pages/terms_ja.html';
+        privacyLink.href = '../pages/privacy_ja.html';
+    }
+    else if (currentLang === 'en') {
+        termsLink.href = '../pages/terms_en.html';
+        privacyLink.href = '../pages/privacy_en.html';
+    }
+    else {
+        termsLink.href = '../pages/terms_zh.html';
+        privacyLink.href = '../pages/privacy_zh.html';
+    }
 }
 setupEvents();
 loadSettings();
