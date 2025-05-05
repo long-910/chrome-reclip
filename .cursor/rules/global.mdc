@@ -1,9 +1,4 @@
 ---
-description: 
-globs: 
-alwaysApply: true
----
----
 description: Apply this rule to the entire repository
 globs: 
 alwaysApply: true
@@ -103,7 +98,7 @@ alwaysApply: true
 
 6. **守るべきルールのディレクトリ/ファイル**
 
-   - ./cursor/rules/dev-rules/*.mdc 
+   - .cursor/rules/dev-rules/*.mdc 
    - 上記ファイルのルールを厳守してください。
 
 ---
