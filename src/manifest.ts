@@ -34,7 +34,6 @@ export default defineManifest(async (env) => ({
   permissions: [
     'storage',
     'contextMenus',
-    'tabs',
     'notifications',
   ],
   host_permissions: [
