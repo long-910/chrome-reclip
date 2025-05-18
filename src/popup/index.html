@@ -22,7 +22,6 @@
       float: right;
       font-size: 0.95em;
       color: #007bff;
-      text-decoration: underline;
       cursor: pointer;
       margin-bottom: 8px;
     }
@@ -170,20 +169,6 @@
     <div class="popup-container">
       <a id="settingsLink" class="settings-link">⚙️ <span id="settingsText">設定</span></a>
       <h1 id="titleLabel">保存した動画</h1>
-      <div style="margin-bottom: 12px; text-align: right;">
-        <label id="logLabel" style="font-size: 0.9em; cursor: pointer;">
-          <input type="checkbox" id="logToggle" style="vertical-align: middle; margin-right: 4px;">
-          ログ出力ON/OFF
-        </label>
-        <label id="langLabel" style="font-size: 0.9em; margin-left: 16px;">
-          言語
-          <select id="langSelect" class="lang-select">
-            <option value="ja">日本語</option>
-            <option value="en">English</option>
-            <option value="zh">中文</option>
-          </select>
-        </label>
-      </div>
       <button id="deleteAll">すべて削除</button>
       <button id="openList">一覧ページを開く</button>
       <div id="videoList" class="video-list"></div>
