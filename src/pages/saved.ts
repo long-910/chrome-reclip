@@ -5,14 +5,12 @@ let currentLang: Lang = 'ja';
 async function loadSettings() {
   const result = await chrome.storage.local.get('reclipSettings');
   currentLang = (result.reclipSettings?.lang as Lang) || getDefaultLang();
-  (document.getElementById('langSelect') as HTMLSelectElement).value = currentLang;
   renderTexts();
 }
 
 function renderTexts() {
   (document.getElementById('titleLabel') as HTMLElement).textContent = t('savedVideos', currentLang);
   (document.getElementById('deleteAll') as HTMLButtonElement).textContent = t('deleteAll', currentLang);
-  (document.getElementById('langLabel') as HTMLElement).textContent = t('langLabel', currentLang);
   (document.getElementById('settingsText') as HTMLElement).textContent = t('settings', currentLang);
 }
 
@@ -62,16 +60,6 @@ document.getElementById('deleteAll')!.addEventListener('click', async () => {
     await chrome.storage.local.set({ savedVideos: [] });
     displayVideos();
   }
-});
-
-document.getElementById('langSelect')!.addEventListener('change', async (e) => {
-  const newLang = (e.target as HTMLSelectElement).value as Lang;
-  const result = await chrome.storage.local.get('reclipSettings');
-  const newSettings = { ...(result.reclipSettings || {}), lang: newLang };
-  await chrome.storage.local.set({ reclipSettings: newSettings });
-  currentLang = newLang;
-  renderTexts();
-  displayVideos();
 });
 
 document.getElementById('settingsLink')!.addEventListener('click', (e) => {

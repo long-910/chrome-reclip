@@ -70,8 +70,8 @@ function setupSettingsMenu() {
 function renderTexts() {
   (document.getElementById('titleLabel') as HTMLElement).textContent = t('savedVideos', currentLang);
   (document.getElementById('logLabel') as HTMLElement).textContent = t('logToggle', currentLang);
-  (document.getElementById('deleteAll') as HTMLButtonElement).textContent = t('deleteAll', currentLang);
-  (document.getElementById('openList') as HTMLButtonElement).textContent = t('openList', currentLang);
+  (document.getElementById('deleteAllLabel') as HTMLButtonElement).textContent = t('deleteAll', currentLang);
+  (document.getElementById('openListLabel') as HTMLButtonElement).textContent = t('openList', currentLang);
   (document.getElementById('langLabel') as HTMLElement).textContent = t('langLabel', currentLang);
   (document.getElementById('settingsText') as HTMLElement).textContent = t('settings', currentLang);
   
@@ -132,7 +132,7 @@ async function displayVideos() {
         <div class="video-info">
           <h3 class="video-title" title="${title}">${displayTitle}</h3>
           <p class="video-domain">${video.domain}</p>
-          <button class="delete-btn" data-id="${video.id}">${t('delete')}</button>
+          <button class="delete-btn" data-id="${video.id}">${t('delete',currentLang)}</button>
         </div>
       `;
       videoElement.addEventListener('click', (e) => {
@@ -145,7 +145,7 @@ async function displayVideos() {
       if (deleteBtn) {
         deleteBtn.addEventListener('click', async (e) => {
           e.stopPropagation();
-          if (confirm(t('confirmDelete'))) {
+          if (confirm(t('confirmDelete', currentLang))) {
             const updatedVideos = savedVideos.filter((v: SavedVideo) => v.id !== video.id);
             await chrome.storage.local.set({ savedVideos: updatedVideos });
             displayVideos();
@@ -159,14 +159,14 @@ async function displayVideos() {
   }
 }
 
-document.getElementById('deleteAll')?.addEventListener('click', async () => {
-  if (confirm(t('confirmDeleteAll'))) {
+document.getElementById('deleteAllLabel')?.addEventListener('click', async () => {
+  if (confirm(t('confirmDeleteAll', currentLang))) {
     await chrome.storage.local.set({ savedVideos: [] });
     displayVideos();
   }
 });
 
-document.getElementById('openList')?.addEventListener('click', () => {
+document.getElementById('openListLabel')?.addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('src/pages/saved.html') });
 });
 

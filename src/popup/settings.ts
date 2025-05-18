@@ -105,17 +105,17 @@ async function savePasswordSettings() {
   const sessionDuration = parseInt(sessionDurationInput.value) * 60 * 1000;
 
   if (newPassword !== confirmPassword) {
-    alert(t('settings.passwordMismatch', currentLang));
+    alert(t('passwordMismatch', currentLang));
     return;
   }
 
   if (newPassword.length < 4) {
-    alert(t('settings.passwordTooShort', currentLang));
+    alert(t('passwordTooShort', currentLang));
     return;
   }
 
   if (sessionDuration < 60 * 1000 || sessionDuration > 24 * 60 * 60 * 1000) {
-    alert(t('settings.invalidSessionDuration', currentLang));
+    alert(t('invalidSessionDuration', currentLang));
     return;
   }
 
