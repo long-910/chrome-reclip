@@ -106,29 +106,88 @@
       margin-left: 8px;
       font-size: 0.9em;
     }
+    #passwordAuth {
+      display: none;
+      text-align: center;
+      padding: 32px 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin: 16px;
+    }
+    #passwordAuth h3 {
+      color: #2c3e50;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    #passwordAuth input {
+      padding: 12px;
+      margin: 8px 0;
+      width: 240px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1em;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    #passwordAuth input:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    }
+    #passwordAuth input::placeholder {
+      color: #95a5a6;
+    }
+    #passwordAuth button {
+      padding: 12px 24px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 16px;
+      font-size: 1em;
+      font-weight: 500;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    #passwordAuth button:hover {
+      background: #45a049;
+      transform: translateY(-1px);
+    }
+    #passwordAuth button:active {
+      transform: translateY(1px);
+    }
   </style>
 </head>
 <body>
-  <div class="popup-container">
-    <a id="settingsLink" class="settings-link">⚙️ <span id="settingsText">設定</span></a>
-    <h1 id="titleLabel">保存した動画</h1>
-    <div style="margin-bottom: 12px; text-align: right;">
-      <label id="logLabel" style="font-size: 0.9em; cursor: pointer;">
-        <input type="checkbox" id="logToggle" style="vertical-align: middle; margin-right: 4px;">
-        ログ出力ON/OFF
-      </label>
-      <label id="langLabel" style="font-size: 0.9em; margin-left: 16px;">
-        言語
-        <select id="langSelect" class="lang-select">
-          <option value="ja">日本語</option>
-          <option value="en">English</option>
-          <option value="zh">中文</option>
-        </select>
-      </label>
+  <div id="passwordAuth">
+    <h3 id="passwordEnterText">パスワードを入力してください</h3>
+    <input type="password" id="passwordInput" placeholder="パスワード">
+    <br>
+    <button id="submitPassword">認証</button>
+  </div>
+  <div id="mainContent" style="display: none;">
+    <div class="popup-container">
+      <a id="settingsLink" class="settings-link">⚙️ <span id="settingsText">設定</span></a>
+      <h1 id="titleLabel">保存した動画</h1>
+      <div style="margin-bottom: 12px; text-align: right;">
+        <label id="logLabel" style="font-size: 0.9em; cursor: pointer;">
+          <input type="checkbox" id="logToggle" style="vertical-align: middle; margin-right: 4px;">
+          ログ出力ON/OFF
+        </label>
+        <label id="langLabel" style="font-size: 0.9em; margin-left: 16px;">
+          言語
+          <select id="langSelect" class="lang-select">
+            <option value="ja">日本語</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </label>
+      </div>
+      <button id="deleteAll">すべて削除</button>
+      <button id="openList">一覧ページを開く</button>
+      <div id="videoList" class="video-list"></div>
     </div>
-    <button id="deleteAll">すべて削除</button>
-    <button id="openList">一覧ページを開く</button>
-    <div id="videoList" class="video-list"></div>
   </div>
   <script src="index.ts" type="module"></script>
 </body>
