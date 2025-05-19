@@ -184,37 +184,6 @@ document.getElementById('settingsLink')?.addEventListener('click', (e) => {
   chrome.tabs.create({ url: chrome.runtime.getURL('src/popup/settings.html') });
 });
 
-// 初期化処理を非同期関数にまとめる
-async function initialize() {
-  // 設定UI初期化
-  setupSettingsMenu();
-  // 設定値ロード
-  await loadSettings();
-  // 初期表示
-  await displayVideos();
-}
-
-// メインの初期化処理
-initialize().catch(error => {
-  console.error('初期化中にエラーが発生しました:', error);
-});
-
-// ストレージの変更を監視
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === 'local' && changes.savedVideos) {
-    displayVideos();
-  }
-  if (namespace === 'local' && changes.reclipSettings) {
-    loadSettings();
-  }
-});
-
-// DOM要素の取得
-const passwordAuth = document.getElementById('passwordAuth') as HTMLDivElement;
-const mainContent = document.getElementById('mainContent') as HTMLDivElement;
-const passwordInput = document.getElementById('passwordInput') as HTMLInputElement;
-const submitPassword = document.getElementById('submitPassword') as HTMLButtonElement;
-
 // セッション管理
 const SESSION_KEY = 'reclip_auth_session';
 const DEFAULT_SESSION_DURATION = 60 * 60 * 1000; // 60分
@@ -263,57 +232,104 @@ setInterval(async () => {
 
 // パスワード認証の初期化
 async function initializePasswordAuth() {
-  const settings = await getStorage('settings');
-  const isPasswordEnabled = settings?.passwordEnabled || false;
-  const passwordHash = settings?.passwordHash || '';
+  try {
+    const settings = await getStorage('settings') || {};
+    const isPasswordEnabled = settings?.passwordEnabled || false;
+    const passwordHash = settings?.passwordHash || '';
 
-  if (!isPasswordEnabled) {
-    showMainContent();
-    return;
+    if (!isPasswordEnabled) {
+      showMainContent();
+      return;
+    }
+
+    // セッションの確認
+    if (await checkSession()) {
+      showMainContent();
+      return;
+    }
+
+    showPasswordAuth();
+  } catch (error) {
+    console.error('パスワード認証の初期化中にエラーが発生しました:', error);
+    showMainContent(); // エラー時はメインコンテンツを表示
   }
-
-  // セッションの確認
-  if (await checkSession()) {
-    showMainContent();
-    return;
-  }
-
-  showPasswordAuth();
 }
 
 // パスワード認証の実行
 async function authenticate() {
-  const password = passwordInput.value;
+  const password = document.getElementById('passwordInput') as HTMLInputElement;
   const settings = await getStorage('settings');
   const passwordHash = settings?.passwordHash || '';
 
-  if (await verifyPassword(password, passwordHash)) {
+  if (await verifyPassword(password.value, passwordHash)) {
     await saveSession();
     showMainContent();
   } else {
     alert(t('invalidPassword', currentLang));
-    passwordInput.value = '';
+    password.value = '';
   }
 }
 
 // UI表示の切り替え
 function showPasswordAuth() {
+  const passwordAuth = document.getElementById('passwordAuth') as HTMLDivElement;
+  const mainContent = document.getElementById('mainContent') as HTMLDivElement;
   passwordAuth.style.display = 'block';
   mainContent.style.display = 'none';
 }
 
 function showMainContent() {
+  const passwordAuth = document.getElementById('passwordAuth') as HTMLDivElement;
+  const mainContent = document.getElementById('mainContent') as HTMLDivElement;
   passwordAuth.style.display = 'none';
   mainContent.style.display = 'block';
 }
 
 // イベントリスナーの設定
-submitPassword.addEventListener('click', authenticate);
-passwordInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    authenticate();
+function setupEventListeners() {
+  const submitPassword = document.getElementById('submitPassword');
+  const passwordInput = document.getElementById('passwordInput');
+
+  if (submitPassword) {
+    submitPassword.addEventListener('click', authenticate);
+  }
+
+  if (passwordInput) {
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        authenticate();
+      }
+    });
+  }
+}
+
+// 初期化処理を非同期関数にまとめる
+async function initialize() {
+  try {
+    // 設定UI初期化
+    setupSettingsMenu();
+    // イベントリスナーの設定
+    setupEventListeners();
+    // 設定値ロード
+    await loadSettings();
+    // パスワード認証の初期化
+    await initializePasswordAuth();
+    // 初期表示
+    await displayVideos();
+  } catch (error) {
+    console.error('初期化中にエラーが発生しました:', error);
+  }
+}
+
+// メインの初期化処理
+initialize();
+
+// ストレージの変更を監視
+chrome.storage.onChanged.addListener((changes, namespace) => {
+  if (namespace === 'local' && changes.savedVideos) {
+    displayVideos();
+  }
+  if (namespace === 'local' && changes.reclipSettings) {
+    loadSettings();
   }
 });
-
-// 初期化
-initializePasswordAuth();
