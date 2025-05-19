@@ -168,17 +168,6 @@ async function displayVideos() {
   }
 }
 
-document.getElementById('deleteAll')?.addEventListener('click', async () => {
-  if (confirm(t('confirmDeleteAll', currentLang))) {
-    await chrome.storage.local.set({ savedVideos: [] });
-    displayVideos();
-  }
-});
-
-document.getElementById('openList')?.addEventListener('click', () => {
-  chrome.tabs.create({ url: chrome.runtime.getURL('src/pages/saved.html') });
-});
-
 document.getElementById('settingsLink')?.addEventListener('click', (e) => {
   e.preventDefault();
   chrome.tabs.create({ url: chrome.runtime.getURL('src/popup/settings.html') });
@@ -289,6 +278,8 @@ function showMainContent() {
 function setupEventListeners() {
   const submitPassword = document.getElementById('submitPassword');
   const passwordInput = document.getElementById('passwordInput');
+  const deleteAllBtn = document.getElementById('deleteAll');
+  const openListBtn = document.getElementById('openList');
 
   if (submitPassword) {
     submitPassword.addEventListener('click', authenticate);
@@ -299,6 +290,21 @@ function setupEventListeners() {
       if (e.key === 'Enter') {
         authenticate();
       }
+    });
+  }
+
+  if (deleteAllBtn) {
+    deleteAllBtn.addEventListener('click', async () => {
+      if (confirm(t('confirmDeleteAll', currentLang))) {
+        await chrome.storage.local.set({ savedVideos: [] });
+        displayVideos();
+      }
+    });
+  }
+
+  if (openListBtn) {
+    openListBtn.addEventListener('click', () => {
+      chrome.tabs.create({ url: chrome.runtime.getURL('src/pages/saved.html') });
     });
   }
 }
