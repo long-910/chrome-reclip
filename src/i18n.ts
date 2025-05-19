@@ -33,6 +33,8 @@ export const I18N: Record<Lang, Record<string, string>> = {
     passwordEnter: 'パスワードを入力してください',
     passwordSubmit: '送信',
     passwordCancel: 'キャンセル',
+    invalidSessionDuration: 'セッション有効時間は1分から24時間の間で設定してください',
+    settingsSaved: '設定を保存しました',
   },
   en: {
     savedVideos: 'Saved Videos',
@@ -66,6 +68,8 @@ export const I18N: Record<Lang, Record<string, string>> = {
     passwordEnter: 'Please enter your password',
     passwordSubmit: 'Submit',
     passwordCancel: 'Cancel',
+    invalidSessionDuration: 'Session duration must be between 1 minute and 24 hours',
+    settingsSaved: 'Settings saved',
   },
   zh: {
     savedVideos: '已保存的视频',
@@ -99,6 +103,8 @@ export const I18N: Record<Lang, Record<string, string>> = {
     passwordEnter: '请输入您的密码',
     passwordSubmit: '提交',
     passwordCancel: '取消',
+    invalidSessionDuration: '会话时长必须在1分钟到24小时之间',
+    settingsSaved: '设置已保存',
   },
 };
 export function getDefaultLang(): Lang {

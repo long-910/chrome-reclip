@@ -44,6 +44,7 @@ async function loadSettings() {
 // 設定の保存
 async function saveSettings() {
   await chrome.storage.local.set({ reclipSettings: { enableLog, lang: currentLang } });
+  await renderTexts();  // 設定保存後にテキストを更新
 }
 
 // 設定トグルのイベント
@@ -61,19 +62,27 @@ function setupSettingsMenu() {
     langSelect.addEventListener('change', async (e) => {
       currentLang = (e.target as HTMLSelectElement).value as Lang;
       await saveSettings();
-      renderTexts();
-      displayVideos();
+      await renderTexts();  // 言語変更後にテキストを更新
+      await displayVideos();
     });
   }
 }
 
-function renderTexts() {
-  (document.getElementById('titleLabel') as HTMLElement).textContent = t('savedVideos', currentLang);
-  (document.getElementById('logLabel') as HTMLElement).textContent = t('logToggle', currentLang);
-  (document.getElementById('deleteAllLabel') as HTMLButtonElement).textContent = t('deleteAll', currentLang);
-  (document.getElementById('openListLabel') as HTMLButtonElement).textContent = t('openList', currentLang);
-  (document.getElementById('langLabel') as HTMLElement).textContent = t('langLabel', currentLang);
-  (document.getElementById('settingsText') as HTMLElement).textContent = t('settings', currentLang);
+// テキストの更新を非同期関数に変更
+async function renderTexts() {
+  const deleteAllBtn = document.getElementById('deleteAll') as HTMLButtonElement;
+  const openListBtn = document.getElementById('openList') as HTMLButtonElement;
+  const titleLabel = document.getElementById('titleLabel') as HTMLElement;
+  const logLabel = document.getElementById('logLabel') as HTMLElement;
+  const langLabel = document.getElementById('langLabel') as HTMLElement;
+  const settingsText = document.getElementById('settingsText') as HTMLElement;
+
+  if (deleteAllBtn) deleteAllBtn.textContent = t('deleteAll', currentLang);
+  if (openListBtn) openListBtn.textContent = t('openList', currentLang);
+  if (titleLabel) titleLabel.textContent = t('savedVideos', currentLang);
+  if (logLabel) logLabel.textContent = t('logToggle', currentLang);
+  if (langLabel) langLabel.textContent = t('langLabel', currentLang);
+  if (settingsText) settingsText.textContent = t('settings', currentLang);
   
   // パスワード入力画面のテキスト
   const passwordEnterText = document.getElementById('passwordEnterText');
@@ -159,14 +168,14 @@ async function displayVideos() {
   }
 }
 
-document.getElementById('deleteAllLabel')?.addEventListener('click', async () => {
+document.getElementById('deleteAll')?.addEventListener('click', async () => {
   if (confirm(t('confirmDeleteAll', currentLang))) {
     await chrome.storage.local.set({ savedVideos: [] });
     displayVideos();
   }
 });
 
-document.getElementById('openListLabel')?.addEventListener('click', () => {
+document.getElementById('openList')?.addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('src/pages/saved.html') });
 });
 
@@ -175,12 +184,21 @@ document.getElementById('settingsLink')?.addEventListener('click', (e) => {
   chrome.tabs.create({ url: chrome.runtime.getURL('src/popup/settings.html') });
 });
 
-// 設定UI初期化
-setupSettingsMenu();
-// 設定値ロード
-loadSettings();
-// 初期表示
-displayVideos();
+// 初期化処理を非同期関数にまとめる
+async function initialize() {
+  // 設定UI初期化
+  setupSettingsMenu();
+  // 設定値ロード
+  await loadSettings();
+  // 初期表示
+  await displayVideos();
+}
+
+// メインの初期化処理
+initialize().catch(error => {
+  console.error('初期化中にエラーが発生しました:', error);
+});
+
 // ストレージの変更を監視
 chrome.storage.onChanged.addListener((changes, namespace) => {
   if (namespace === 'local' && changes.savedVideos) {
@@ -273,7 +291,7 @@ async function authenticate() {
     await saveSession();
     showMainContent();
   } else {
-    alert(t('invalidPassword'));
+    alert(t('invalidPassword', currentLang));
     passwordInput.value = '';
   }
 }

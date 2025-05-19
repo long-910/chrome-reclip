@@ -182,12 +182,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sessionDuration = parseInt(sessionDurationInput.value) * 60 * 1000; // 分をミリ秒に変換
 
     if (password && password !== confirmPassword) {
-      alert('パスワードが一致しません');
+      alert(t('passwordMismatch', currentLang));
       return;
     }
 
     if (sessionDuration < 60 * 1000 || sessionDuration > 24 * 60 * 60 * 1000) {
-      alert('セッション有効時間は1分から24時間の間で設定してください');
+      alert(t('invalidSessionDuration', currentLang));
       return;
     }
 
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     await setStorage('settings', settings);
-    alert('設定を保存しました');
+    alert(t('settingsSaved', currentLang));
     window.close();
   });
 }); 
